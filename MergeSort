@@ -1,0 +1,69 @@
+#排序主体
+class ArraySort
+  $b=Array.new
+  def initialize(value)
+    $array=value
+  end
+  def sort(left,right)
+     if left<right
+       i=(left+right)/2
+       sort(left,i)
+       sort(i+1,right)
+       merge(left,i,right)
+       copy(left,right)
+     end
+  end
+  def merge(l,m,r)
+    i=l
+    j=m+1
+    k=l
+    while i<=m && j<=r
+      if $array[i] <= $array[j]
+        $b[k]=$array[i]
+        k+=1
+        i+=1
+      else
+        $b[k]=$array[j]
+        k+=1
+        j+=1
+      end
+    end
+    if i>m
+      for p in j..r
+        $b[k]=$array[p]
+        k+=1
+      end
+    else
+      for p in i..m
+        $b[k]=$array[p]
+        k+=1
+      end
+    end
+  end
+  def copy(l,r)
+       for i in l..r
+         $array[i]=$b[i]
+       end
+  end
+  def PrintArray
+    puts $array
+  end
+end
+#产生随机数矩阵
+class RadomArray
+  def create(value)
+      source=Array.new
+      for i in 1..value
+         source[i-1]=rand(i)
+      end
+      return source
+  end
+end
+#归并排序主程序
+class MergeSort
+       N=100000
+       source=RadomArray.new
+       p=ArraySort.new(source.create(N))
+       p.sort(0,N-1)
+       p.PrintArray
+end

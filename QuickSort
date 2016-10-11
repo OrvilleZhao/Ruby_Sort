@@ -1,0 +1,59 @@
+class QuickSort
+  def initialize(value)
+    $array=value
+  end
+  def Sort(p,r)
+    if p<r
+      q=Partition(p,r)
+      Sort(p,q-1)
+      Sort(q+1,r)
+    end
+  end
+  def Partition(p,r)
+     @i=p
+     @j=r+1
+     x=$array[p]
+     while true
+       @i+=1
+       while $array[@i]<x
+          @i+=1
+       end
+       @j-=1
+       while $array[@j]>x
+          @j-=1
+       end
+       if @i >= @j
+         break;
+       end
+       Swap(@i,@j)
+     end
+    $array[p]=$array[@j]
+    $array[@j]=x
+    return @j
+  end
+  def Swap(i,j)
+    a=$array[i]
+    $array[i]=$array[j]
+    $array[j]=a
+  end
+  def PrintArray
+    puts $array
+  end
+end
+#产生随机数矩阵
+class RadomArray
+  def create(value)
+    source=Array.new
+    for i in 1..value
+      source[i-1]=rand(value)
+    end
+    return source
+  end
+end
+class Quick
+  N=200
+  a=RadomArray.new
+  p=QuickSort.new(a.create(N))
+  p.Sort(0,N-1)
+  p.PrintArray
+end

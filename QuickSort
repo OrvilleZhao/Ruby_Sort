@@ -1,6 +1,8 @@
 class QuickSort
+  attr_reader :count
   def initialize(value)
-    $array=value
+    @array=value
+    @count=0
   end
   def Sort(p,r)
     if p<r
@@ -10,34 +12,40 @@ class QuickSort
     end
   end
   def Partition(p,r)
-     @i=p
-     @j=r+1
-     x=$array[p]
-     while true
-       @i+=1
-       while $array[@i]<x
-          @i+=1
-       end
-       @j-=1
-       while $array[@j]>x
-          @j-=1
-       end
-       if @i >= @j
-         break;
-       end
-       Swap(@i,@j)
-     end
-    $array[p]=$array[@j]
-    $array[@j]=x
+    if p==r
+      return p
+    end
+    @i=p
+    @j=r+1
+    x=@array[p]
+    while true
+      @i+=1
+      @count+=1
+      while @i<@j&&@array[@i]!=nil&&x!=nil&&@array[@i]<x
+        @count+=1
+        @i+=1
+      end
+      @j-=1
+      while @i<@j&&@array[@i]!=nil&&x!=nil&&@array[@j]>x
+        @count+=1
+        @j-=1
+      end
+      if @i >= @j
+        break;
+      end
+      Swap(@i,@j)
+    end
+    @array[p]=@array[@j]
+    @array[@j]=x
     return @j
   end
   def Swap(i,j)
-    a=$array[i]
-    $array[i]=$array[j]
-    $array[j]=a
+    a=@array[i]
+    @array[i]=@array[j]
+    @array[j]=a
   end
   def PrintArray
-    puts $array
+    puts @array
   end
 end
 #产生随机数矩阵
@@ -51,9 +59,10 @@ class RadomArray
   end
 end
 class Quick
-  N=200
-  a=RadomArray.new
-  p=QuickSort.new(a.create(N))
-  p.Sort(0,N-1)
-  p.PrintArray
+  10.times do |i|
+    a=RadomArray.new
+    p=QuickSort.new(a.create((i+1)*100))
+    p.Sort(0,(i+1)*100-1)
+    puts "当数量为"+((i+1)*100).to_s+"时时间复杂度为:"+p.count.to_s
+  end
 end
